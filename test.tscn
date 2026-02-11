@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dwyss7kljisa8"]
+
+[ext_resource type="Script" uid="uid://djoutxeuyeldj" path="res://test.gd" id="1_37kl0"]
+[ext_resource type="Script" uid="uid://bo72dmtufff38" path="res://addons/pico-http-server/pico-http-server.gd" id="2_8uh7m"]
+
+[node name="Test" type="Node3D" unique_id=1415587057]
+script = ExtResource("1_37kl0")
+
+[node name="HttpServer" type="Node" parent="." unique_id=725161324]
+script = ExtResource("2_8uh7m")
+metadata/_custom_type_script = "uid://bo72dmtufff38"
