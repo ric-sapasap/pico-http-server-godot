@@ -3,6 +3,8 @@ extends Node
 
 var _tcp_server: TCPServer
 
+signal on_request_accepted(request: String)
+
 func start_server(bind_address: String, port: int) -> void:
 	self._tcp_server = TCPServer.new()
 	var err = self._tcp_server.listen(port, bind_address)
@@ -42,19 +44,17 @@ func _handle_connection(conn: StreamPeerTCP) -> void:
 			
 	var request_text := buffer.get_string_from_utf8()
 	
-	#var body = "<h1>Hello world</h1>"
-	#var body_bytes := body.to_utf8_buffer()
+	emit_signal("on_request_accepted", request_text)
 	
-	var location = "https://google.com"
+	var body = "OK"
+	var body_bytes := body.to_utf8_buffer()
 	
 	var response := ""
-	response += "HTTP/1.1 302 FOUND\r\n"
-	response += "Location: %s\r\n" % location
-	response += "Content-Length: 0\r\n"
-	#response += "Content-Type: text/html\r\n"
-	#response += "Content-Length: %d\r\n" % body_bytes.size()
+	response += "HTTP/1.1 200 OK\r\n"
+	response += "Content-Type: text/html\r\n"
+	response += "Content-Length: %d\r\n" % body_bytes.size()
 	response += "Connection: close\r\n\r\n"
 
 	conn.put_data(response.to_utf8_buffer())
-	#conn.put_data(body_bytes)
+	conn.put_data(body_bytes)
 	conn.disconnect_from_host()
